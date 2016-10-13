@@ -1,0 +1,8 @@
+{
+  "name": "kafka-connect-slack-sink-test",
+  "config": {
+    "slack.webhook": "${SLACK_WEBHOOK}",
+    "topics": "test-topic",
+    "connector.class": "kafka.connect.slack.sink.SinkConnector"
+  }
+}

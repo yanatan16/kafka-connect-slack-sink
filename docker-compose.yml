@@ -1,0 +1,41 @@
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:0.10.0.1
+    ports:
+      - "9092"
+    links:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  connect:
+    image: confluentinc/cp-kafka-connect:3.0.1
+    ports:
+      - "8083:8083"
+    volumes:
+      - "./target/kafka-connect-slack-sink-0.1.0-SNAPSHOT-standalone.jar:/usr/share/java/kafka-connect-slack-sink/kafka-connect-slack-sink.jar:ro"
+    links:
+      - "kafka:kafka"
+      - "zookeeper:zookeeper"
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+      CONNECT_GROUP_ID: slack-sink-test
+      CONNECT_CONFIG_STORAGE_TOPIC: __slack.sink.config.storage
+      CONNECT_STATUS_STORAGE_TOPIC: __slack.sink.status.storage
+      CONNECT_OFFSET_STORAGE_TOPIC: __slack.sink.offset.storage
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_REST_PORT: 8083
+      CONNECT_REST_ADVERTISED_HOST_NAME: docker
+      CONNECT_SCHEMAS_ENABLE: "false"
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_ZOOKEEPER_CONNECT: zookeeper:2181

@@ -1,31 +1,33 @@
 (ns kafka-connect-slack-sink.sink-connector
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [kafka-connect-slack-sink.config :refer [config]])
-  (:import [kafka-connect-slack-sink SinkTask])
+            [kafka-connect-slack-sink.config :refer [config]]
+            [kafka-connect-slack-sink.sink-task])
+  (:import [kafka.connect.slack.sink SinkTask])
   (:gen-class
-   :name kafka-connect-slack-sink.SinkConnector
+   :name kafka.connect.slack.sink.SinkConnector
    :extends org.apache.kafka.connect.sink.SinkConnector
    :state props
    :init init
-   :constructors [[] []]))
+   :constructors {[] []}
+   :prefix "connector-"))
 
-(defn -init []
-  [[] (ref {})])
+(defn connector-init []
+  [[] (atom {})])
 
-(defn -task-class [this]
+(defn connector-taskClass [this]
   (.-class SinkTask))
 
-(defn -task-configs [this max-tasks]
-  (repeat max-tasks (.props this)))
+(defn connector-taskConfigs [this max-tasks]
+  (repeat max-tasks @(.props this)))
 
-(defn -config [this] config)
+(defn connector-config [this] config)
 
-(defn -start [this props]
-  (set! (.props this) props))
+(defn connector-start [this props]
+  (reset! (.props this) props))
 
-(defn -stop [this] nil)
+(defn connector-stop [this] nil)
 
-(defn -version [this]
+(defn connector-version [this]
   (or (some-> (io/resource "project.clj") slurp edn/read-string (nth 2))
       "unknown"))

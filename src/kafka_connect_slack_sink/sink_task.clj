@@ -1,18 +1,24 @@
 (ns kafka-connect-slack-sink.sink-task
   (:require [clj-http.client :as http]
+            [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [kafka-connect-slack-sink.config :as cfg])
   (:gen-class
-   :name kafka-connect-slack-sink.SinkTask
+   :name kafka.connect.slack.sink.SinkTask
    :extends org.apache.kafka.connect.sink.SinkTask
-   :state props
+   :state cfg
    :init init
-   :constructors [[] []]))
+   :constructors {[] []}
+   :prefix "task-"))
 
-(defn -start [this props]
-  (set! (.props this) props))
+(defn task-init []
+  [[] (atom {})])
 
-(defn -put [this records]
-  (let [slack-webhook-url (get props cfg/SLACK_WEBHOOK_URL)]
+(defn task-start [this props]
+  (reset! (.cfg this) {:webhook (get props cfg/SLACK_WEBHOOK)}))
+
+(defn task-put [this records]
+  (let [slack-webhook-url (:webhook @(.cfg this))]
     (doall
      (for [record records]
        (http/post slack-webhook-url
@@ -20,10 +26,10 @@
                    :form-params {:text (pr-str (.value record))
                                  :username (.topic record)}})))))
 
-(defn -flush [this] nil)
+(defn task-flush [this] nil)
 
-(defn -stop [this] nil)
+(defn task-stop [this] nil)
 
-(defn -version [this]
+(defn task-version [this]
   (or (some-> (io/resource "project.clj") slurp edn/read-string (nth 2))
       "unknown"))
