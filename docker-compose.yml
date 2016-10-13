@@ -7,7 +7,7 @@ services:
   kafka:
     image: wurstmeister/kafka:0.10.0.1
     ports:
-      - "9092"
+      - "9092:9092"
     links:
       - zookeeper
     environment:
@@ -20,7 +20,7 @@ services:
     ports:
       - "8083:8083"
     volumes:
-      - "./target/kafka-connect-slack-sink-0.1.0-SNAPSHOT-standalone.jar:/usr/share/java/kafka-connect-slack-sink/kafka-connect-slack-sink.jar:ro"
+      - "./target/kafka-connect-slack-sink-standalone.jar:/usr/share/java/kafka-connect-slack-sink/kafka-connect-slack-sink-standalone.jar:ro"
     links:
       - "kafka:kafka"
       - "zookeeper:zookeeper"
@@ -38,4 +38,5 @@ services:
       CONNECT_REST_ADVERTISED_HOST_NAME: docker
       CONNECT_SCHEMAS_ENABLE: "false"
       CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
       CONNECT_ZOOKEEPER_CONNECT: zookeeper:2181

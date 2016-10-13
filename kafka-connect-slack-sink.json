@@ -1,8 +1,12 @@
 {
   "name": "kafka-connect-slack-sink-test",
   "config": {
-    "slack.webhook": "${SLACK_WEBHOOK}",
-    "topics": "test-topic",
-    "connector.class": "kafka.connect.slack.sink.SinkConnector"
+      "topics": "test-topic",
+      "connector.class": "kafka.connect.slack.sink.SinkConnector",
+      "slack.webhook": "${SLACK_WEBHOOK}",
+      "slack.channel": "${SLACK_CHANNEL}",
+      "slack.emoji": ":+1:",
+      "slack.username.template": "Kafka topic: {{topic}}",
+      "slack.message.template": "{{value.user_id}} just {{&value.thing}}"
   }
 }

@@ -4,6 +4,20 @@
   :license {:name "MIT"
             :url "https://github.com/yanatan16/kafka-connect-slack-webhook/blob/master/LICENSE"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [clj-http "3.3.0"]
-                 [org.apache.kafka/connect-api "0.10.0.1"]]
-  :aot :all)
+                 [org.clojure/tools.logging "0.3.1"]
+                 [org.apache.kafka/connect-api "0.10.0.1"]
+                 [aleph "0.4.1"]
+                 [cheshire "5.6.3"]
+                 [de.ubercode.clostache/clostache "1.4.0"]]
+  :aot :all
+
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag"]
+                  ["uberjar"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]]
+
+  :uberjar-name "kafka-connect-slack-sink-standalone.jar")

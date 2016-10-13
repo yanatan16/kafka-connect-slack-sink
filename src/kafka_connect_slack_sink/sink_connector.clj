@@ -15,8 +15,7 @@
 (defn connector-init []
   [[] (atom {})])
 
-(defn connector-taskClass [this]
-  (.-class SinkTask))
+(defn connector-taskClass [this] SinkTask)
 
 (defn connector-taskConfigs [this max-tasks]
   (repeat max-tasks @(.props this)))
