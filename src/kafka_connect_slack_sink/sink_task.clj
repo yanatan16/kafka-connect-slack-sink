@@ -5,7 +5,7 @@
             [kafka-connect-slack-sink.config :as cfg]
             [kafka-connect-slack-sink.slack :as slack]
             [clojure.walk :refer [keywordize-keys]])
-  (:import [java.util Map List])
+  (:import [java.util Map List Set])
   (:gen-class
    :name kafka.connect.slack.sink.SinkTask
    :extends org.apache.kafka.connect.sink.SinkTask
@@ -18,6 +18,7 @@
   (cond
     (instance? Map o) (zipmap (.keySet o) (map convert-schemaless-object (.values o)))
     (instance? List o) (vec (map convert-schemaless-object o))
+    (instance? Set o) (set (map convert-schemaless-object o))
     (string? o) (str o)
     :else o))
 
