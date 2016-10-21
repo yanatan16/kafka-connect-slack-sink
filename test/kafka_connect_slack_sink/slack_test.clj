@@ -9,15 +9,15 @@
 
 (def PORT 18123)
 (def REQUESTS (atom []))
-(def BASE_CONFIG {cfg/SLACK_WEBHOOK (str "http://127.0.0.1:" PORT "/webhook")
-                  cfg/SLACK_CHANNEL ""
-                  cfg/SLACK_EMOJI ""
-                  cfg/SLACK_USERNAME_TEMPLATE ""
-                  cfg/SLACK_MESSAGE_TEMPLATE "{{value.id}} baz {{value.data}}"})
+(def BASE_CONFIG {:slack.webhook (str "http://127.0.0.1:" PORT "/webhook")
+                  :slack.channel ""
+                  :slack.emoji ""
+                  :slack.username.template ""
+                  :slack.message.template "{{value.id}} baz {{value.data}}"})
 (def CONFIG (merge BASE_CONFIG
-                   {cfg/SLACK_CHANNEL "#test-channel"
-                    cfg/SLACK_EMOJI ":rocket:"
-                    cfg/SLACK_USERNAME_TEMPLATE "{{topic}}"}))
+                   {:slack.channel "#test-channel"
+                    :slack.emoji ":rocket:"
+                    :slack.username.template "{{topic}}"}))
 
 
 (defn webhook-handler [req]

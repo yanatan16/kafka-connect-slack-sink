@@ -5,7 +5,7 @@
             :url "https://github.com/yanatan16/kafka-connect-slack-webhook/blob/master/LICENSE"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/tools.logging "0.3.1"]
-                 [org.apache.kafka/connect-api "0.10.0.1"]
+                 [org.clojars.yanatan16/franzy-connect "0.1.1"]
                  [aleph "0.4.1"]
                  [cheshire "5.6.3"]
                  [de.ubercode.clostache/clostache "1.4.0"]]

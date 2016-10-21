@@ -69,7 +69,7 @@ docker-compose up -d
 echo '{"user_id":"jon", "thing": "wrote a kafka-connector slack sink for posting messages. <https://github.com/yanatan16/kafka-connect-slack-sink|Check it out>"}' | kafkacat -b $DOCKER:9092 -t test-topic -P
 
 # Prepare the kafka connector config
-cat kafka-connect-slack-sink.json | \
+cat POST.json | \
  sed "s%\${SLACK_WEBHOOK}%${SLACK_WEBHOOK}%" | \
  sed "s%\${SLACK_CHANNEL}%${SLACK_CHANNEL}%" > /tmp/kafka-connect-sink.json
 

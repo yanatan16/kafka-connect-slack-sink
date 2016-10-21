@@ -13,11 +13,11 @@
                     :value (keywordize-keys value)}))
 
 (defn post-message [props topic key value]
-  (let [webhook (get props cfg/SLACK_WEBHOOK)
-        channel (get props cfg/SLACK_CHANNEL)
-        emoji (get props cfg/SLACK_EMOJI)
-        username (get props cfg/SLACK_USERNAME_TEMPLATE)
-        message (get props cfg/SLACK_MESSAGE_TEMPLATE)]
+  (let [webhook (:slack.webhook props)
+        channel (:slack.channel props)
+        emoji (:slack.emoji props)
+        username (:slack.username.template props)
+        message (:slack.message.template props)]
     (http/post
      webhook
      {:headers {"Content-type" "application/json"}
