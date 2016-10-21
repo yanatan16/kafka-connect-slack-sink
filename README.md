@@ -8,6 +8,7 @@ To install into a kafka-connect classpath, simply download an uberjar from the r
 
 ```
 lein uberjar
+cp target/kafka-connect-slack-sink-standalone.jar <destination classpath>
 ```
 
 Then you can start connectors as normal through the REST API or Confluent's Kafka Control Center.
@@ -31,8 +32,8 @@ This connector using mustache templating to template usernames and messages. The
 ```json
 {
     "topic": "topic-name",
-    "key" <arbitrary key>,
-    "value" <arbitrary value>
+    "key": <arbitrary key>,
+    "value": <arbitrary value>
 }
 ```
 
