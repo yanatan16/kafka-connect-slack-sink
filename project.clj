@@ -1,4 +1,4 @@
-(defproject kafka-connect-slack-sink "0.1.2"
+(defproject kafka-connect-slack-sink "0.1.3-SNAPSHOT"
   :description "Kafka Connector Sink to post to slack via webhook"
   :url "https://github.com/yanatan16/kafka-connect-slack-webhook"
   :license {:name "MIT"
