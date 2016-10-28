@@ -11,5 +11,6 @@
            cfg)
   :put-1 (fn [props {:keys [value topic key]}]
            (log/infof "Posting kafka record %s" value)
-           (slack/post-message props topic key value))}
+           (slack/post-message props topic key value)
+           props)}
  {:config-def config})
